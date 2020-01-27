@@ -1,8 +1,11 @@
+#define GPIO_INPUT_IO 13
+#define GPIO_OUTPUT_IO 23
+
 void setup() {
-    Serial.begin(115200);
+    pinMode(GPIO_INPUT_IO, INPUT);
+    pinMode(GPIO_OUTPUT_IO, OUTPUT);
 }
 
 void loop() {
-    Serial.println("Hello world!");
-    delay(1000);
+    digitalWrite(GPIO_OUTPUT_IO, digitalRead(GPIO_INPUT_IO));
 }
