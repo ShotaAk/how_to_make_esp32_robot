@@ -12,27 +12,27 @@
 #include "freertos/FreeRTOS.h"
 #include "driver/gpio.h"
 
-#define GPIO_INPUT_IO_0 13
-#define GPIO_OUTPUT_IO_0 23
+#define GPIO_INPUT_IO 13
+#define GPIO_OUTPUT_IO 23
 
 void app_main()
 {
     gpio_config_t io_conf;
     io_conf.intr_type = GPIO_PIN_INTR_DISABLE;
     io_conf.mode = GPIO_MODE_OUTPUT;
-    io_conf.pin_bit_mask = (1ULL<<GPIO_OUTPUT_IO_0);
+    io_conf.pin_bit_mask = (1ULL<<GPIO_OUTPUT_IO);
     io_conf.pull_down_en = 0;
     io_conf.pull_up_en = 0;
     gpio_config(&io_conf);
 
     io_conf.intr_type = GPIO_PIN_INTR_DISABLE;
-    io_conf.pin_bit_mask = (1ULL<<GPIO_INPUT_IO_0);
     io_conf.mode = GPIO_MODE_INPUT;
+    io_conf.pin_bit_mask = (1ULL<<GPIO_INPUT_IO);
     io_conf.pull_down_en = 1;
     gpio_config(&io_conf);
 
     while(1) {
-        gpio_set_level(GPIO_OUTPUT_IO_0, gpio_get_level(GPIO_INPUT_IO_0));
+        gpio_set_level(GPIO_OUTPUT_IO, gpio_get_level(GPIO_INPUT_IO));
     }
 }
 
