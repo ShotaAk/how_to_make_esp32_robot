@@ -38,7 +38,7 @@ static void pcnt_example_init(void)
     pcnt_unit_config(&pcnt_config);
 
     /* Configure and enable the input filter */
-    pcnt_set_filter_value(PCNT_TEST_UNIT, 1);
+    pcnt_set_filter_value(PCNT_TEST_UNIT, 10);
     pcnt_filter_enable(PCNT_TEST_UNIT);
 
     /* Enable events on zero, maximum and minimum limit values */
