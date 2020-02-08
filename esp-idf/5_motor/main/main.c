@@ -81,8 +81,6 @@ void app_main()
 
     mcpwm_config_t pwm_config;
     pwm_config.frequency = 100*1000; // frequency = 100kHz,
-    pwm_config.cmpr_a = 0; // duty cycle of PWMxA = 0
-    pwm_config.cmpr_b = 0; // duty cycle of PWMxb = 0
     pwm_config.counter_mode = MCPWM_UP_COUNTER;
     pwm_config.duty_mode = DUTY_MODE;
 
