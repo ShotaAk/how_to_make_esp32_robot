@@ -37,7 +37,7 @@ void app_main()
         float motor_speed = ((float)count / PPMR) / (WAIT_TIME_SEC);
         float shaft_speed = ((float)count / PPSR) / (WAIT_TIME_SEC);
 
-        printf("Count:%d\tMotorSpped:%fRPS\tShaftSpeed:%fRPS\n", 
+        printf("Count:%d\tMotorSpeed:%fRPS\tShaftSpeed:%fRPS\n", 
                 count, motor_speed, shaft_speed);
         pcnt_counter_clear(UNIT);
         vTaskDelay(pdMS_TO_TICKS(WAIT_TIME_MS));
