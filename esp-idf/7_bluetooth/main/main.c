@@ -18,9 +18,29 @@
 #include "esp_bt_main.h"
 #include "esp_gatt_common_api.h"
 
-#include "sdkconfig.h"
+#include "driver/gpio.h"
 
 #define GATTS_TAG "GATTS_DEMO"
+
+
+// Lチカのため設定の設定
+#define GPIO_OUTPUT_IO 23
+#define COMMAND_LED_ON 0x12
+#define COMMAND_LED_OFF 0xab
+static int flag_led_on = 0;
+
+static void check_led_command(uint8_t *command, uint16_t command_length){
+    // 送信データからLED点灯要求が来ていないかチェックする
+
+    if(command_length == 1){
+        if(command[0] == COMMAND_LED_ON){
+            flag_led_on = 1;
+        }else if(command[0] == COMMAND_LED_OFF){
+            flag_led_on = 0;
+        }
+    }
+}
+
 
 ///Declare the static function
 static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
@@ -336,6 +356,9 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
             ESP_LOGI(GATTS_TAG, "GATT, 書き込みデータのサイズ%d, データの中身:", param->write.len);
             ESP_LOG_BUFFER_HEX(GATTS_TAG, param->write.value, param->write.len);
 
+            // LED点灯要求が来ていないかチェックする
+            check_led_command(param->write.value, param->write.len);
+
             if (gl_profile_tab[PROFILE_A_APP_ID].descr_handle == param->write.handle 
                     && param->write.len == 2){
                 uint16_t descr_value = param->write.value[1]<<8 | param->write.value[0];
@@ -626,5 +649,18 @@ void app_main()
         ESP_LOGE(GATTS_TAG, "set local  MTU failed, error code = %x", local_mtu_ret);
     }
 
-    return;
+    // LチカのためのGPIO設定
+
+    gpio_config_t io_conf;
+    io_conf.intr_type = GPIO_PIN_INTR_DISABLE;
+    io_conf.mode = GPIO_MODE_OUTPUT;
+    io_conf.pin_bit_mask = (1ULL<<GPIO_OUTPUT_IO);
+    io_conf.pull_down_en = 0;
+    io_conf.pull_up_en = 0;
+    gpio_config(&io_conf);
+    while(1) {
+        gpio_set_level(GPIO_OUTPUT_IO, flag_led_on);
+        vTaskDelay(100 / portTICK_RATE_MS);
+    }
+    // return;
 }
