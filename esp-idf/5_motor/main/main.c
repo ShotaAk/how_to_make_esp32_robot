@@ -38,7 +38,7 @@ void app_main(){
     mcpwm_gpio_init(UNIT, MCPWM0B, GPIO_NUM_25);
 
     mcpwm_config_t pwm_config;
-    pwm_config.frequency = 10*1000; // frequency = 10kHz,
+    pwm_config.frequency = 10*1000;
     pwm_config.counter_mode = MCPWM_UP_COUNTER;
     pwm_config.duty_mode = DUTY_MODE;
 
