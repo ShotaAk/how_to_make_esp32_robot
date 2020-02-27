@@ -10,14 +10,14 @@ void app_main()
     pcnt_config_t pcnt_config = {
         .pulse_gpio_num = GPIO_NUM_27,
         .ctrl_gpio_num = GPIO_NUM_14,
-        .channel = PCNT_CHANNEL_0,
-        .unit = UNIT,
-        .pos_mode = PCNT_COUNT_INC,
-        .neg_mode = PCNT_COUNT_DIS,
         .lctrl_mode = PCNT_MODE_REVERSE,
         .hctrl_mode = PCNT_MODE_KEEP,
+        .pos_mode = PCNT_COUNT_INC,
+        .neg_mode = PCNT_COUNT_DIS,
         .counter_h_lim = 20000,
         .counter_l_lim = -20000,
+        .unit = UNIT,
+        .channel = PCNT_CHANNEL_0,
     };
     pcnt_unit_config(&pcnt_config);
     pcnt_filter_enable(UNIT);
