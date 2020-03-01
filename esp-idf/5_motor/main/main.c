@@ -57,17 +57,18 @@ void app_main(){
     const int WAIT_TIME_MS = 100;
     const int DUTY_STEP = 1;
     const int DUTY_MAX = 100;
+    // 使用するモータはデューティ比50%以下で動かなかった
     const int DUTY_MIN = 50;
     while (1) {
         // 正転・逆転を切り替える
         for(int go_back=0; go_back<=1; go_back++){
-            // デューティを増加させる（加速）
+            // デューティ比を増加させる（加速）
             for(int duty=DUTY_MIN; duty<DUTY_MAX; duty+=DUTY_STEP){
                 motor_drive(duty, go_back);
                 vTaskDelay(WAIT_TIME_MS / portTICK_RATE_MS);
             }
         
-            // デューティを減少させる（減速）
+            // デューティ比を減少させる（減速）
             for(int duty=DUTY_MAX; duty>=DUTY_MIN; duty-=DUTY_STEP){
                 motor_drive(duty, go_back);
                 vTaskDelay(WAIT_TIME_MS / portTICK_RATE_MS);
