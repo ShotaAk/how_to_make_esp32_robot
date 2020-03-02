@@ -1,18 +1,23 @@
-int PULSE_PIN = 32;
-int CONTROL_PIN = 33;
-
+const int PULSE_PIN = 27;
+const int CONTROL_PIN = 14;
 int count;
 
-void setup()
-{
+void setup(){
     Serial.begin(115200);
     pinMode(PULSE_PIN, INPUT);
     pinMode(CONTROL_PIN, INPUT);
+    // パルスピンの立ち上がりで割り込みを発生させる
     attachInterrupt(PULSE_PIN, count_pulse, RISING);
+
+    const int GPIO_IN1 = 33;
+    const int GPIO_IN2 = 25;
+    pinMode(GPIO_IN1, OUTPUT);
+    pinMode(GPIO_IN2, OUTPUT);
+    digitalWrite(GPIO_IN1, LOW);
+    digitalWrite(GPIO_IN2, HIGH);
 }
 
-void loop()
-{
+void loop(){
     static const int PPMR = 3;
     static const int PPSR = 1300;
     static const int WAIT_TIME_MS = 100;
@@ -34,11 +39,10 @@ void loop()
     delay(WAIT_TIME_MS);
 }
 
-void count_pulse()
-{
+void count_pulse(){
     if(digitalRead(CONTROL_PIN)){
-        count++;
-    }else{
         count--;
+    }else{
+        count++;
     }
 }
